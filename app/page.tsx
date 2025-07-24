@@ -86,7 +86,7 @@ export default function HomePage() {
       content:
         "PINCOREHUB designed our company website and set up our social media presence. Their integrated approach saved us both time and money. Highly recommended!",
       rating: 5,
-      location: "Kano, Nigeria",
+      location: "Lagos, Nigeria",
     },
     {
       name: "Fatima Abdullahi",
