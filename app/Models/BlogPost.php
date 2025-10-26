@@ -10,52 +10,51 @@ class BlogPost extends Model
 {
     use HasFactory;
 
+    public $incrementing = false;
+    protected $keyType = 'string';
+
     protected $fillable = [
+        'id',
         'title',
         'slug',
+        'excerpt',
         'content',
-        'author_id',
-        'featured_image',
+        'image',
         'category',
         'tags',
-        'status',
-        'published_at',
+        'published',
+        'author_id',
     ];
 
-    protected $casts = [
-        'tags' => 'array', // Cast tags to an array
-        'published_at' => 'datetime',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'tags' => 'array',
+        ];
+    }
 
-    /**
-     * Get the author of the blog post.
-     */
     public function author()
     {
         return $this->belongsTo(User::class, 'author_id');
     }
 
-    /**
-     * Get the comments for the blog post.
-     */
     public function comments()
     {
         return $this->hasMany(Comment::class);
     }
 
-    /**
-     * Automatically generate slug when title is set.
-     */
     protected static function boot()
     {
         parent::boot();
 
         static::creating(function ($blogPost) {
-            $blogPost->slug = Str::slug($blogPost->title);
+            if (empty($blogPost->slug)) {
+                $blogPost->slug = Str::slug($blogPost->title);
+            }
         });
 
         static::updating(function ($blogPost) {
-            if ($blogPost->isDirty('title')) {
+            if ($blogPost->isDirty('title') && empty($blogPost->slug)) {
                 $blogPost->slug = Str::slug($blogPost->title);
             }
         });

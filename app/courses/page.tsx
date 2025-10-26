@@ -59,13 +59,14 @@ export default function CoursesPage() {
       if (category && category !== "all") params.append("category", category)
       if (level && level !== "all") params.append("level", level)
 
-      const res = await fetch(`/api/courses?${params.toString()}`)
+      const res = await fetch(`http://localhost:8000/api/courses?${params.toString()}`)
       if (!res.ok) {
         throw new Error("Failed to fetch courses")
       }
       const data = await res.json()
-      setCourses(data.courses)
-      setPagination(data.pagination)
+      setCourses(data)
+      // The new API doesn't have pagination, so I'll just set some default values.
+      setPagination({ page: 1, limit: 9, total: data.length, pages: 1 })
     } catch (err: any) {
       setError(err.message || "An unexpected error occurred.")
     } finally {

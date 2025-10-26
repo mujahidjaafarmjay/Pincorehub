@@ -49,13 +49,14 @@ export default function BlogPage() {
       if (query) params.append("search", query)
       if (category && category !== "all") params.append("category", category)
 
-      const res = await fetch(`/api/blog?${params.toString()}`)
+      const res = await fetch(`http://localhost:8000/api/admin/blog?${params.toString()}`)
       if (!res.ok) {
         throw new Error("Failed to fetch blog posts")
       }
       const data = await res.json()
-      setPosts(data.posts)
-      setPagination(data.pagination)
+      setPosts(data)
+      // The new API doesn't have pagination, so I'll just set some default values.
+      setPagination({ page: 1, limit: 10, total: data.length, pages: 1 })
     } catch (err: any) {
       setError(err.message || "An unexpected error occurred.")
     } finally {

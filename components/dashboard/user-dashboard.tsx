@@ -31,26 +31,32 @@ export default function UserDashboard() {
   }, [])
 
   const fetchDashboardData = async () => {
+    const headers = {
+      'Authorization': `Bearer ${session?.accessToken}`,
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
     try {
       // Fetch user's enrollments, bookings, etc.
       const [enrollmentsRes, bookingsRes] = await Promise.all([
-        fetch("/api/user/enrollments"),
-        fetch("/api/user/bookings"),
-      ])
+        fetch("http://localhost:8000/api/enrollments", { headers }),
+        fetch("http://localhost:8000/api/bookings", { headers }),
+      ]);
 
-      const enrollments = await enrollmentsRes.json()
-      const bookings = await bookingsRes.json()
+      const enrollments = await enrollmentsRes.json();
+      const bookings = await bookingsRes.json();
 
       setDashboardData({
-        enrollments: enrollments.data || [],
-        bookings: bookings.data || [],
+        enrollments: enrollments || [],
+        bookings: bookings || [],
         certificates: [],
         recentActivity: [],
-      })
+      });
     } catch (error) {
-      console.error("Error fetching dashboard data:", error)
+      console.error("Error fetching dashboard data:", error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   }
 

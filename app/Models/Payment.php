@@ -9,30 +9,31 @@ class Payment extends Model
 {
     use HasFactory;
 
+    public $incrementing = false;
+    protected $keyType = 'string';
+
     protected $fillable = [
+        'id',
         'user_id',
-        'reference',
         'amount',
         'currency',
+        'reference',
         'status',
-        'payment_gateway',
-        'payable_type',
-        'payable_id',
+        'payment_method',
+        'description',
+        'metadata',
     ];
 
-    /**
-     * Get the user that made the payment.
-     */
+    protected function casts(): array
+    {
+        return [
+            'metadata' => 'array',
+            'status' => 'string',
+        ];
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    /**
-     * Get the parent payable model (e.g., Course, Booking).
-     */
-    public function payable()
-    {
-        return $this->morphTo();
     }
 }

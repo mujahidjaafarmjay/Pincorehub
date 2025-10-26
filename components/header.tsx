@@ -29,13 +29,12 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { useTheme } from "next-themes"
 import { Moon, Sun } from "lucide-react"
-import { useSession, signOut } from "next-auth/react"
-import { SearchInput } from "./shared/search-input" // Import the SearchInput component
+import { useAuth } from "@/hooks/use-auth"
+import SearchInput from "./shared/search-input" // Import the SearchInput component
 
 export default function Header() {
   const { setTheme } = useTheme()
-  const { data: session, status } = useSession()
-  const isLoadingSession = status === "loading"
+  const { user, logout, isLoading } = useAuth()
 
   return (
     <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6 z-50">
@@ -94,23 +93,23 @@ export default function Header() {
             <Link href="/contact" className="text-muted-foreground hover:text-foreground">
               Contact
             </Link>
-            {session?.user ? (
+            {user ? (
               <>
                 <Link href="/dashboard" className="text-muted-foreground hover:text-foreground">
                   Dashboard
                 </Link>
-                {session.user.role === "ADMIN" && (
+                {user.role === "ADMIN" && (
                   <Link href="/dashboard/admin/courses" className="text-muted-foreground hover:text-foreground">
                     Admin (Courses)
                   </Link>
                 )}
-                {session.user.role === "ADMIN" ||
-                  (session.user.role === "INSTRUCTOR" && (
+                {user.role === "ADMIN" ||
+                  (user.role === "INSTRUCTOR" && (
                     <Link href="/dashboard/admin/blog" className="text-muted-foreground hover:text-foreground">
                       Admin (Blog)
                     </Link>
                   ))}
-                <Button variant="ghost" onClick={() => signOut()} className="justify-start px-0">
+                <Button variant="ghost" onClick={logout} className="justify-start px-0">
                   Sign Out
                 </Button>
               </>
@@ -142,9 +141,9 @@ export default function Header() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>{session?.user?.name || "My Account"}</DropdownMenuLabel>
+            <DropdownMenuLabel>{user?.name || "My Account"}</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            {session?.user ? (
+            {user ? (
               <>
                 <DropdownMenuItem asChild>
                   <Link href="/dashboard">
@@ -156,7 +155,7 @@ export default function Header() {
                     <Settings className="mr-2 h-4 w-4" /> Settings
                   </Link>
                 </DropdownMenuItem>
-                {session.user.role === "ADMIN" && (
+                {user.role === "ADMIN" && (
                   <>
                     <DropdownMenuSeparator />
                     <DropdownMenuLabel>Admin</DropdownMenuLabel>
@@ -172,7 +171,7 @@ export default function Header() {
                     </DropdownMenuItem>
                   </>
                 )}
-                {session.user.role === "INSTRUCTOR" && (
+                {user.role === "INSTRUCTOR" && (
                   <>
                     <DropdownMenuSeparator />
                     <DropdownMenuLabel>Instructor</DropdownMenuLabel>
@@ -184,7 +183,7 @@ export default function Header() {
                   </>
                 )}
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => signOut()}>
+                <DropdownMenuItem onClick={logout}>
                   <LogOut className="mr-2 h-4 w-4" /> Logout
                 </DropdownMenuItem>
               </>

@@ -6,7 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { Toaster } from "@/components/ui/toaster"
-import { SessionProvider } from "next-auth/react"
+import { AuthProvider } from "@/hooks/use-auth"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -72,14 +72,14 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <SessionProvider>
+        <AuthProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
             <Header />
             <main className="flex-grow">{children}</main>
             <Footer />
             <Toaster />
           </ThemeProvider>
-        </SessionProvider>
+        </AuthProvider>
         {/* Google Analytics Script (replace with your actual GA4 tag) */}
         <script
           async

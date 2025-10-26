@@ -61,43 +61,56 @@ export default function BlogPostForm({ initialData }: BlogPostFormProps) {
   useEffect(() => {
     // Fetch authors (users with ADMIN or INSTRUCTOR role) for the dropdown
     const fetchAuthors = async () => {
+      const headers = {
+        'Authorization': `Bearer ${session?.accessToken}`,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      };
+
       try {
-        const response = await fetch("/api/admin/users?role=ADMIN,INSTRUCTOR") // Assuming an API to fetch users by role
+        const response = await fetch("http://localhost:8000/api/admin/users", { headers }); // Assuming an API to fetch users by role
         if (response.ok) {
-          const data = await response.json()
-          setAuthors(data)
+          const data = await response.json();
+          setAuthors(data);
         } else {
           toast({
             title: "Error",
             description: "Failed to load authors.",
             variant: "destructive",
-          })
+          });
         }
       } catch (error) {
-        console.error("Failed to fetch authors:", error)
+        console.error("Failed to fetch authors:", error);
         toast({
           title: "Error",
           description: "An unexpected error occurred while fetching authors.",
           variant: "destructive",
-        })
+        });
       }
-    }
-    fetchAuthors()
-  }, [toast])
+    };
+    fetchAuthors();
+  }, [toast]);
 
   const onSubmit = async (values: BlogPostFormValues) => {
-    setIsSubmitting(true)
+    setIsSubmitting(true);
+
+    const headers = {
+      'Authorization': `Bearer ${session?.accessToken}`,
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
     try {
-      const method = initialData?.id ? "PUT" : "POST"
-      const url = initialData?.id ? `/api/admin/blog?id=${initialData.id}` : "/api/admin/blog"
+      const method = initialData?.id ? "PUT" : "POST";
+      const url = initialData?.id
+        ? `http://localhost:8000/api/admin/blog/${initialData.id}`
+        : "http://localhost:8000/api/admin/blog";
 
       const response = await fetch(url, {
         method,
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers,
         body: JSON.stringify(values),
-      })
+      });
 
       const data = await response.json()
 

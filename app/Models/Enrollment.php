@@ -9,24 +9,23 @@ class Enrollment extends Model
 {
     use HasFactory;
 
+    public $incrementing = false;
+    protected $keyType = 'string';
+
     protected $fillable = [
+        'id',
         'user_id',
         'course_id',
-        'status',
+        'enrolled_at',
         'progress',
+        'completed',
     ];
 
-    /**
-     * Get the user that owns the enrollment.
-     */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * Get the course that the enrollment belongs to.
-     */
     public function course()
     {
         return $this->belongsTo(Course::class);

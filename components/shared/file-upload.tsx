@@ -71,57 +71,49 @@ export default function FileUpload({
     setIsLoading(true)
     setUploadProgress(0)
 
+    const headers = {
+      'Authorization': `Bearer ${session?.accessToken}`,
+      'Accept': 'application/json',
+    };
+
     try {
-      // 1. Get Cloudinary signature
-      const signatureRes = await fetch(`/api/upload?folder=${folder}`)
-      if (!signatureRes.ok) {
-        const errorData = await signatureRes.json()
-        throw new Error(errorData.error || "Failed to get upload signature")
-      }
-      const { signature, timestamp, cloudname, apiKey } = await signatureRes.json()
+      const formData = new FormData();
+      formData.append('file', file);
 
-      // 2. Prepare FormData for Cloudinary upload
-      const formData = new FormData()
-      formData.append("file", file)
-      formData.append("api_key", apiKey)
-      formData.append("signature", signature)
-      formData.append("timestamp", timestamp)
-      formData.append("folder", folder)
-
-      // 3. Upload to Cloudinary
-      const uploadRes = await fetch(`https://api.cloudinary.com/v1_1/${cloudname}/auto/upload`, {
+      const response = await fetch("http://localhost:8000/api/upload", {
         method: "POST",
+        headers,
         body: formData,
-      })
+      });
 
-      if (!uploadRes.ok) {
-        const errorData = await uploadRes.json()
-        throw new Error(errorData.error?.message || "Cloudinary upload failed")
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Upload failed");
       }
 
-      const uploadData = await uploadRes.json()
-      const uploadedUrl = uploadData.secure_url
+      const data = await response.json();
+      const uploadedUrl = `http://localhost:8000/storage/${data.path.replace('public/', '')}`;
 
-      onUploadSuccess(uploadedUrl)
+      onUploadSuccess(uploadedUrl);
       toast({
         title: "Upload successful",
         description: "Your file has been uploaded.",
-      })
+      });
     } catch (error: any) {
-      console.error("Upload error:", error)
-      const errorMessage = error.message || "An unknown error occurred during upload."
+      console.error("Upload error:", error);
+      const errorMessage = error.message || "An unknown error occurred during upload.";
       toast({
         title: "Upload failed",
         description: errorMessage,
         variant: "destructive",
-      })
-      onUploadError?.(errorMessage)
+      });
+      onUploadError?.(errorMessage);
     } finally {
-      setIsLoading(false)
-      setUploadProgress(0)
-      setFile(null) // Clear file input after upload
+      setIsLoading(false);
+      setUploadProgress(0);
+      setFile(null); // Clear file input after upload
     }
-  }, [file, folder, onUploadSuccess, onUploadError, toast])
+  }, [file, onUploadSuccess, onUploadError, toast]);
 
   const handleRemoveFile = useCallback(() => {
     setFile(null)

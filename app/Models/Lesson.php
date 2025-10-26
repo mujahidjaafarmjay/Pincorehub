@@ -9,17 +9,20 @@ class Lesson extends Model
 {
     use HasFactory;
 
+    public $incrementing = false;
+    protected $keyType = 'string';
+
     protected $fillable = [
+        'id',
         'course_id',
         'title',
-        'content',
+        'description',
         'video_url',
+        'duration',
         'order',
+        'is_published',
     ];
 
-    /**
-     * Get the course that the lesson belongs to.
-     */
     public function course()
     {
         return $this->belongsTo(Course::class);

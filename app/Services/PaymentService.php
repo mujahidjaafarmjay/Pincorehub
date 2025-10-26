@@ -31,11 +31,11 @@ class PaymentService
      * @param string $callbackUrl
      * @param string $reference
      * @param string $payableType
-     * @param int $payableId
+     * @param string $payableId
      * @return array
      * @throws Exception
      */
-    public function initializePayment(User $user, float $amount, string $callbackUrl, string $reference, string $payableType, int $payableId): array
+    public function initializePayment(User $user, float $amount, string $callbackUrl, string $reference, string $payableType, string $payableId): array
     {
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $this->paystackSecretKey,
@@ -88,6 +88,7 @@ class PaymentService
                 $payment = Payment::firstOrCreate(
                     ['reference' => $transaction['reference']],
                     [
+                        'id' => \Illuminate\Support\Str::uuid(),
                         'user_id' => $transaction['metadata']['user_id'] ?? null,
                         'amount' => $transaction['amount'] / 100, // Convert back to Naira
                         'currency' => $transaction['currency'],
@@ -100,8 +101,8 @@ class PaymentService
                 );
 
                 // Update status if it was not 'success' initially
-                if ($payment->status !== 'success') {
-                    $payment->status = 'success';
+                if ($payment->status !== 'COMPLETED') {
+                    $payment->status = 'COMPLETED';
                     $payment->save();
                 }
 
@@ -135,9 +136,10 @@ class PaymentService
                 // Enroll user in course if not already enrolled
                 if (!$course->enrollments()->where('user_id', $user->id)->exists()) {
                     $course->enrollments()->create([
+                        'id' => \Illuminate\Support\Str::uuid(),
                         'user_id' => $user->id,
-                        'enrollment_date' => now(),
-                        'status' => 'ENROLLED',
+                        'enrolled_at' => now(),
+                        'completed' => false,
                     ]);
                     Log::info("User {$user->id} enrolled in course {$course->id} after payment.");
                 }

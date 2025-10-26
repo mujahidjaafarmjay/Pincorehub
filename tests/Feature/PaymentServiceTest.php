@@ -30,7 +30,13 @@ class PaymentServiceTest extends TestCase
         $this->user = User::factory()->create();
         $this->course = Course::factory()->create(['price' => 100.00]);
 
-        // Mock Paystack API responses
+        Mail::fake(); // Fake mail sending
+        $this->spy('log');
+    }
+
+    /** @test */
+    public function it_can_initialize_a_payment()
+    {
         Http::fake([
             'https://api.paystack.co/transaction/initialize' => Http::response([
                 'status' => true,
@@ -41,32 +47,8 @@ class PaymentServiceTest extends TestCase
                     'reference' => 'mock_ref_' . uniqid(),
                 ],
             ], 200),
-            'https://api.paystack.co/transaction/verify/*' => Http::response([
-                'status' => true,
-                'message' => 'Verification successful',
-                'data' => [
-                    'id' => $this->faker->randomNumber(5),
-                    'reference' => 'mock_ref_verified',
-                    'status' => 'success',
-                    'amount' => 10000, // 100 Naira in kobo
-                    'currency' => 'NGN',
-                    'metadata' => [
-                        'user_id' => $this->user->id,
-                        'payable_type' => Course::class,
-                        'payable_id' => $this->course->id,
-                    ],
-                    'customer' => ['email' => $this->user->email],
-                ],
-            ], 200),
         ]);
 
-        Mail::fake(); // Fake mail sending
-        Log::fake(); // Fake logging
-    }
-
-    /** @test */
-    public function it_can_initialize_a_payment()
-    {
         $amount = 100.00;
         $callbackUrl = 'http://localhost/payments/callback';
         $reference = 'test_ref_' . uniqid();
@@ -122,14 +104,34 @@ class PaymentServiceTest extends TestCase
             $this->course->id
         );
 
-        Log::assertSent('error', function ($message, $context) {
+    Log::shouldHaveReceived('error')->once()->with(\Mockery::on(function ($message) {
             return str_contains($message, 'Paystack initialization failed: Invalid Data');
-        });
+    }));
     }
 
     /** @test */
     public function it_can_verify_a_successful_payment_and_enroll_user()
     {
+        Http::fake([
+            'https://api.paystack.co/transaction/verify/*' => Http::response([
+                'status' => true,
+                'message' => 'Verification successful',
+                'data' => [
+                    'id' => $this->faker->randomNumber(5),
+                    'reference' => 'mock_ref_verified',
+                    'status' => 'success',
+                    'amount' => 10000, // 100 Naira in kobo
+                    'currency' => 'NGN',
+                    'metadata' => [
+                        'user_id' => $this->user->id,
+                        'payable_type' => Course::class,
+                        'payable_id' => $this->course->id,
+                    ],
+                    'customer' => ['email' => $this->user->email],
+                ],
+            ], 200),
+        ]);
+
         $reference = 'mock_ref_verified';
 
         $payment = $this->paymentService->verifyPayment($reference);
@@ -143,6 +145,7 @@ class PaymentServiceTest extends TestCase
         $this->assertEquals($this->course->id, $payment->payable_id);
 
         $this->assertDatabaseHas('payments', [
+            'id' => $payment->id,
             'reference' => $reference,
             'status' => 'success',
             'user_id' => $this->user->id,
@@ -162,9 +165,9 @@ class PaymentServiceTest extends TestCase
                    $mail->item->id === $this->course->id;
         });
 
-        Log::assertSent('info', function ($message, $context) {
+        Log::shouldHaveReceived('info')->once()->with(\Mockery::on(function ($message) {
             return str_contains($message, "User {$this->user->id} enrolled in course {$this->course->id} after payment.");
-        });
+        }));
     }
 
     /** @test */
@@ -172,9 +175,10 @@ class PaymentServiceTest extends TestCase
     {
         // Manually enroll user first
         $this->course->enrollments()->create([
+            'id' => \Illuminate\Support\Str::uuid(),
             'user_id' => $this->user->id,
-            'enrollment_date' => now(),
-            'status' => 'ENROLLED',
+            'enrolled_at' => now(),
+            'completed' => false,
         ]);
 
         $this->assertDatabaseCount('enrollments', 1);
@@ -185,9 +189,9 @@ class PaymentServiceTest extends TestCase
         // Assert that only one enrollment record exists
         $this->assertDatabaseCount('enrollments', 1);
 
-        Log::assertNotSent('info', function ($message) {
+        Log::shouldNotHaveReceived('info')->with(\Mockery::on(function ($message) {
             return str_contains($message, 'enrolled in course');
-        });
+        }));
     }
 
     /** @test */
@@ -205,16 +209,16 @@ class PaymentServiceTest extends TestCase
 
         $this->paymentService->verifyPayment('invalid_ref');
 
-        Log::assertSent('warning', function ($message, $context) {
+        Log::shouldHaveReceived('warning')->once()->with(\Mockery::on(function ($message) {
             return str_contains($message, 'Paystack verification failed or not successful: Transaction not found');
-        });
+        }));
     }
 
     /** @test */
     public function it_throws_exception_on_unsuccessful_paystack_status()
     {
         Http::fake([
-            'https://api.paystack.co/transaction/verify/*' => Http::response([
+            'https' => Http::response([
                 'status' => true,
                 'message' => 'Verification successful',
                 'data' => [
@@ -238,8 +242,8 @@ class PaymentServiceTest extends TestCase
 
         $this->paymentService->verifyPayment('mock_ref_pending');
 
-        Log::assertSent('warning', function ($message, $context) {
+        Log::shouldHaveReceived('warning')->once()->with(\Mockery::on(function ($message) {
             return str_contains($message, 'Paystack verification failed or not successful');
-        });
+        }));
     }
 }

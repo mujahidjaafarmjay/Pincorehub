@@ -35,29 +35,41 @@ export default function AdminDashboard() {
   }, [])
 
   const fetchAdminData = async () => {
-    try {
-      const [statsRes, usersRes, coursesRes, bookingsRes] = await Promise.all([
-        fetch("/api/admin/stats"),
-        fetch("/api/admin/users"),
-        fetch("/api/admin/courses"),
-        fetch("/api/admin/bookings"),
-      ])
+    const headers = {
+      'Authorization': `Bearer ${session?.accessToken}`,
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
 
-      const [statsData, usersData, coursesData, bookingsData] = await Promise.all([
-        statsRes.json(),
+    try {
+      // The new API doesn't have a stats endpoint, so I'll just fetch the other data.
+      const [usersRes, coursesRes, bookingsRes] = await Promise.all([
+        fetch("http://localhost:8000/api/admin/users", { headers }),
+        fetch("http://localhost:8000/api/admin/courses", { headers }),
+        fetch("http://localhost:8000/api/admin/bookings", { headers }),
+      ]);
+
+      const [usersData, coursesData, bookingsData] = await Promise.all([
         usersRes.json(),
         coursesRes.json(),
         bookingsRes.json(),
-      ])
+      ]);
 
-      setStats(statsData)
-      setUsers(usersData.users || [])
-      setCourses(coursesData.courses || [])
-      setBookings(bookingsData.bookings || [])
+      // The new API doesn't have a stats endpoint, so I'll set some default values.
+      setStats({
+        totalUsers: usersData.length,
+        totalCourses: coursesData.length,
+        totalBookings: bookingsData.length,
+        totalRevenue: 0,
+        monthlyGrowth: 0,
+      });
+      setUsers(usersData || []);
+      setCourses(coursesData || []);
+      setBookings(bookingsData || []);
     } catch (error) {
-      console.error("Error fetching admin data:", error)
+      console.error("Error fetching admin data:", error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   }
 

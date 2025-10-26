@@ -9,29 +9,21 @@ class Certificate extends Model
 {
     use HasFactory;
 
+    public $incrementing = false;
+    protected $keyType = 'string';
+
     protected $fillable = [
+        'id',
         'user_id',
         'course_id',
-        'certificate_url',
-        'unique_id',
-        'issued_at',
+        'issued_date',
     ];
 
-    protected $casts = [
-        'issued_at' => 'datetime',
-    ];
-
-    /**
-     * Get the user that owns the certificate.
-     */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * Get the course that the certificate is for.
-     */
     public function course()
     {
         return $this->belongsTo(Course::class);

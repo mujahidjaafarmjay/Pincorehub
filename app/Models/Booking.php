@@ -9,40 +9,31 @@ class Booking extends Model
 {
     use HasFactory;
 
+    public $incrementing = false;
+    protected $keyType = 'string';
+
     protected $fillable = [
+        'id',
         'user_id',
-        'service_type',
-        'scheduled_at',
+        'service',
+        'date',
+        'time',
+        'location',
+        'message',
+        'phone',
         'status',
-        'notes',
-        'payment_id',
     ];
 
-    protected $casts = [
-        'scheduled_at' => 'datetime',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'date' => 'datetime',
+            'status' => 'string',
+        ];
+    }
 
-    /**
-     * Get the user that made the booking.
-     */
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    /**
-     * Get the payment associated with this booking.
-     */
-    public function payment()
-    {
-        return $this->belongsTo(Payment::class);
-    }
-
-    /**
-     * Get the payments associated with this booking (morphMany for consistency if needed).
-     */
-    public function payments()
-    {
-        return $this->morphMany(Payment::class, 'payable');
     }
 }

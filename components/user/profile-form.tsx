@@ -42,43 +42,55 @@ export default function ProfileForm() {
 
   useEffect(() => {
     const fetchProfile = async () => {
-      setIsLoadingData(true)
+      setIsLoadingData(true);
+
+      const headers = {
+        'Authorization': `Bearer ${session?.accessToken}`,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      };
+
       try {
-        const response = await fetch("/api/user/profile")
+        const response = await fetch("http://localhost:8000/api/user", { headers });
         if (response.ok) {
-          const data = await response.json()
-          form.reset(data) // Populate form with fetched data
+          const data = await response.json();
+          form.reset(data); // Populate form with fetched data
         } else {
           toast({
             title: "Error",
             description: "Failed to load profile data.",
             variant: "destructive",
-          })
+          });
         }
       } catch (error) {
-        console.error("Failed to fetch profile:", error)
+        console.error("Failed to fetch profile:", error);
         toast({
           title: "Error",
           description: "An unexpected error occurred while fetching profile.",
           variant: "destructive",
-        })
+        });
       } finally {
-        setIsLoadingData(false)
+        setIsLoadingData(false);
       }
-    }
-    fetchProfile()
-  }, [form, toast])
+    };
+    fetchProfile();
+  }, [form, toast]);
 
   const onSubmit = async (values: ProfileFormValues) => {
-    setIsSubmitting(true)
+    setIsSubmitting(true);
+
+    const headers = {
+      'Authorization': `Bearer ${session?.accessToken}`,
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
     try {
-      const response = await fetch("/api/user/profile", {
+      const response = await fetch(`http://localhost:8000/api/user/${form.getValues('id')}`, {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers,
         body: JSON.stringify(values),
-      })
+      });
 
       const data = await response.json()
 

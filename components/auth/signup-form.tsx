@@ -25,10 +25,11 @@ export default function SignupForm() {
     setIsLoading(true)
 
     try {
-      const response = await fetch("/api/auth/register", {
+      const response = await fetch("http://localhost:8000/api/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Accept": "application/json",
         },
         body: JSON.stringify({ name, email, password }),
       })
@@ -44,7 +45,7 @@ export default function SignupForm() {
       } else {
         toast({
           title: "Registration Failed",
-          description: data.error || "Something went wrong. Please try again.",
+          description: data.message || "Something went wrong. Please try again.",
           variant: "destructive",
         })
       }
@@ -61,19 +62,11 @@ export default function SignupForm() {
   }
 
   const handleGoogleSignIn = async () => {
-    setIsLoading(true)
-    try {
-      await signIn("google", { callbackUrl: "/dashboard" })
-    } catch (error) {
-      console.error("Google sign-in error:", error)
-      toast({
-        title: "Error",
-        description: "Failed to sign in with Google. Please try again.",
-        variant: "destructive",
-      })
-    } finally {
-      setIsLoading(false)
-    }
+    // This will need to be re-implemented with Laravel Socialite
+    toast({
+      title: "Coming Soon!",
+      description: "Google Sign-In is not yet available.",
+    })
   }
 
   return (

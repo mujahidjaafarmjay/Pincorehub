@@ -1,9 +1,9 @@
-import LoginForm from "@/components/auth/login-form"
+import SigninForm from "@/components/auth/signin-form"
 
-export default function SignInPage() {
+export default function SigninPage() {
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
-      <LoginForm />
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
+      <SigninForm />
     </div>
   )
 }

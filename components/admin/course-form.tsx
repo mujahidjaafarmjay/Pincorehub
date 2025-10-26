@@ -51,43 +51,56 @@ export default function CourseForm({ initialData }: CourseFormProps) {
   useEffect(() => {
     // Fetch instructors for the dropdown
     const fetchInstructors = async () => {
+      const headers = {
+        'Authorization': `Bearer ${session?.accessToken}`,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      };
+
       try {
-        const response = await fetch("/api/admin/users?role=INSTRUCTOR") // Assuming an API to fetch users by role
+        const response = await fetch("http://localhost:8000/api/admin/users?role=INSTRUCTOR", { headers }); // Assuming an API to fetch users by role
         if (response.ok) {
-          const data = await response.json()
-          setInstructors(data)
+          const data = await response.json();
+          setInstructors(data);
         } else {
           toast({
             title: "Error",
             description: "Failed to load instructors.",
             variant: "destructive",
-          })
+          });
         }
       } catch (error) {
-        console.error("Failed to fetch instructors:", error)
+        console.error("Failed to fetch instructors:", error);
         toast({
           title: "Error",
           description: "An unexpected error occurred while fetching instructors.",
           variant: "destructive",
-        })
+        });
       }
-    }
-    fetchInstructors()
-  }, [toast])
+    };
+    fetchInstructors();
+  }, [toast]);
 
   const onSubmit = async (values: CourseFormValues) => {
-    setIsSubmitting(true)
+    setIsSubmitting(true);
+
+    const headers = {
+      'Authorization': `Bearer ${session?.accessToken}`,
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
     try {
-      const method = initialData?.id ? "PUT" : "POST"
-      const url = initialData?.id ? `/api/admin/courses?id=${initialData.id}` : "/api/admin/courses"
+      const method = initialData?.id ? "PUT" : "POST";
+      const url = initialData?.id
+        ? `http://localhost:8000/api/admin/courses/${initialData.id}`
+        : "http://localhost:8000/api/admin/courses";
 
       const response = await fetch(url, {
         method,
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers,
         body: JSON.stringify(values),
-      })
+      });
 
       const data = await response.json()
 
