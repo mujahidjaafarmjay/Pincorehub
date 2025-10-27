@@ -289,7 +289,7 @@ export default function ServicesPage() {
       <section className="py-20 bg-gray-900/50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">Why Choose PINCOREHUB?</h2>
+            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">Why Choose pincohub?</h2>
             <p className="text-xl text-gray-300">We deliver exceptional results with unmatched service quality</p>
           </div>
 

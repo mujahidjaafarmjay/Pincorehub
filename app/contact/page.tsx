@@ -312,7 +312,7 @@ export default function ContactPage() {
 
               <Card className="bg-gray-800/50 border-gray-700 hover:bg-gray-800/70 glow-orange">
                 <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold text-white mb-6">Why Choose PINCOREHUB?</h3>
+                  <h3 className="text-xl font-semibold text-white mb-6">Why Choose pincohub?</h3>
                   <div className="space-y-4">
                     {features.map((feature, index) => (
                       <div key={index} className="flex items-center">

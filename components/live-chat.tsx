@@ -18,7 +18,7 @@ export default function LiveChat() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      text: "Hello! Welcome to PINCOREHUB. How can I help you today?",
+      text: "Hello! Welcome to pincohub. How can I help you today?",
       sender: "bot",
       timestamp: new Date(),
     },
@@ -75,7 +75,7 @@ export default function LiveChat() {
             <CardHeader className="bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-t-lg">
               <CardTitle className="flex items-center gap-2 text-lg">
                 <MessageCircle className="h-5 w-5" />
-                PINCOREHUB Support
+                pincohub Support
               </CardTitle>
               <p className="text-orange-100 text-sm">We're here to help!</p>
             </CardHeader>

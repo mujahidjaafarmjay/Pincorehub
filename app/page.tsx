@@ -84,9 +84,9 @@ export default function HomePage() {
       name: "Adebayo Johnson",
       role: "Small Business Owner",
       content:
-        "PINCOREHUB designed our company website and set up our social media presence. Their integrated approach saved us both time and money. Highly recommended!",
+        "pincohub designed our company website and set up our social media presence. Their integrated approach saved us both time and money. Highly recommended!",
       rating: 5,
-      location: "Kano, Nigeria",
+      location: "Lagos, Nigeria",
     },
     {
       name: "Fatima Abdullahi",
@@ -402,7 +402,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">What Our Customers Say</h2>
-            <p className="text-xl text-gray-400">Real feedback from real customers who trust PINCOREHUB</p>
+            <p className="text-xl text-gray-400">Real feedback from real customers who trust pincohub</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">

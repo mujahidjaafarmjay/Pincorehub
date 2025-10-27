@@ -44,7 +44,7 @@ export default function Footer() {
                 <div className="w-6 h-6 flex items-center justify-center font-bold">P</div>
               </div>
               <span className="text-xl font-bold">
-                PINCORE<span className="text-orange-500">HUB</span>
+                pinco<span className="text-orange-500">hub</span>
               </span>
             </div>
             <p className="text-gray-300 mb-6">
@@ -160,7 +160,7 @@ export default function Footer() {
       <div className="border-t border-gray-700">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-300 text-sm">© 2024 PINCOREHUB. All rights reserved. | Business Company</p>
+            <p className="text-gray-300 text-sm">© 2024 pincohub. All rights reserved. | Business Company</p>
             <div className="flex space-x-6 mt-4 md:mt-0">
               <Link href="/privacy" className="text-gray-300 hover:text-orange-400 text-sm">
                 Privacy Policy
