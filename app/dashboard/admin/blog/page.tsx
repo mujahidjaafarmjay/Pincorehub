@@ -12,7 +12,7 @@ import { Badge } from "@/components/ui/badge"
 
 export const metadata = {
   title: "Manage Blog Posts",
-  description: "Admin panel for managing blog posts on PINCOREHUB.",
+  description: "Admin panel for managing blog posts on pincohub.",
 }
 
 export default async function AdminBlogPage() {

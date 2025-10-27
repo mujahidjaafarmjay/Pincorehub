@@ -6,7 +6,7 @@ import { redirect } from "next/navigation"
 
 export const metadata = {
   title: "Create New Course",
-  description: "Admin panel for creating new courses on PINCOREHUB.",
+  description: "Admin panel for creating new courses on pincohub.",
 }
 
 export default async function CreateCoursePage() {

@@ -34,7 +34,7 @@ class PaymentConfirmationEmail extends Mailable implements ShouldQueue // Implem
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Your PINCOREHUB Payment Confirmation',
+            subject: 'Your pincohub Payment Confirmation',
         );
     }
 

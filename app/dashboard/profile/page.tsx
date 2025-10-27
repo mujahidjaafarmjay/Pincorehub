@@ -6,7 +6,7 @@ import { redirect } from "next/navigation"
 
 export const metadata = {
   title: "User Profile",
-  description: "Manage your PINCOREHUB user profile.",
+  description: "Manage your pincohub user profile.",
 }
 
 export default async function UserProfilePage() {

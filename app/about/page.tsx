@@ -68,7 +68,7 @@ export default function AboutPage() {
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-20 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <Badge className="mb-4 bg-orange-100 text-orange-800">About PINCOREHUB</Badge>
+          <Badge className="mb-4 bg-orange-100 text-orange-800">About pincohub</Badge>
           <h1 className="text-4xl lg:text-5xl font-bold text-white mb-6">
             Empowering Digital Transformation
             <span className="text-orange-500 block">Across Nigeria & Beyond</span>
@@ -210,7 +210,7 @@ export default function AboutPage() {
         <div className="max-w-4xl mx-auto text-center px-4">
           <h2 className="text-3xl lg:text-4xl font-bold mb-6">Ready to Work With Us?</h2>
           <p className="text-xl text-orange-100 mb-8">
-            Join hundreds of satisfied customers who trust PINCOREHUB for their tech needs. Let's build something
+            Join hundreds of satisfied customers who trust pincohub for their tech needs. Let's build something
             amazing together.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

@@ -384,7 +384,7 @@ export default function BookingPage() {
                 </div>
                 <h2 className="text-2xl font-bold text-white mb-4">Booking Confirmed!</h2>
                 <p className="text-gray-600 mb-6">
-                  Thank you for booking with PINCOREHUB. We've sent a confirmation email with all the details.
+                  Thank you for booking with pincohub. We've sent a confirmation email with all the details.
                 </p>
 
                 <div className="bg-gray-700 rounded-lg p-6 mb-6 text-left">

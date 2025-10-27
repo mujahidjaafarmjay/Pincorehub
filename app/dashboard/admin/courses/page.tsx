@@ -11,7 +11,7 @@ import DeleteCourseButton from "./delete-course-button" // We'll create this com
 
 export const metadata = {
   title: "Manage Courses",
-  description: "Admin panel for managing courses on PINCOREHUB.",
+  description: "Admin panel for managing courses on pincohub.",
 }
 
 export default async function AdminCoursesPage() {

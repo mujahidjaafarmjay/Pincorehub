@@ -37,14 +37,14 @@ export async function POST(request: Request) {
     // Send welcome email
     await sendEmail({
       to: user.email,
-      subject: "Welcome to PINCOREHUB!",
+      subject: "Welcome to pincohub!",
       html: `
         <h1>Welcome, ${user.name}!</h1>
-        <p>Thank you for registering with PINCOREHUB. We're excited to have you on board.</p>
+        <p>Thank you for registering with pincohub. We're excited to have you on board.</p>
         <p>Start exploring our courses and services today!</p>
         <p><a href="${process.env.NEXTAUTH_URL}/auth/signin">Login to your account</a></p>
       `,
-      text: `Welcome, ${user.name}! Thank you for registering with PINCOREHUB. Start exploring our courses and services today! Login to your account: ${process.env.NEXTAUTH_URL}/auth/signin`,
+      text: `Welcome, ${user.name}! Thank you for registering with pincohub. Start exploring our courses and services today! Login to your account: ${process.env.NEXTAUTH_URL}/auth/signin`,
     })
 
     return NextResponse.json(

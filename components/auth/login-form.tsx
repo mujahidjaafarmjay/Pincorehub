@@ -55,7 +55,7 @@ export default function LoginForm() {
     <Card className="w-full max-w-md mx-auto bg-gray-800/50 border-gray-700">
       <CardHeader className="text-center">
         <CardTitle className="text-2xl text-white">Welcome Back</CardTitle>
-        <CardDescription>Sign in to your PINCOREHUB account</CardDescription>
+        <CardDescription>Sign in to your pincohub account</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">

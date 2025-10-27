@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: EditCoursePageProps) {
 
   return {
     title: course ? `Edit ${course.title}` : "Edit Course",
-    description: `Admin panel for editing ${course?.title || "a course"} on PINCOREHUB.`,
+    description: `Admin panel for editing ${course?.title || "a course"} on pincohub.`,
   }
 }
 

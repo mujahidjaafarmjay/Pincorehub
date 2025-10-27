@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: EditBlogPostPageProps) {
 
   return {
     title: post ? `Edit ${post.title}` : "Edit Blog Post",
-    description: `Admin panel for editing ${post?.title || "a blog post"} on PINCOREHUB.`,
+    description: `Admin panel for editing ${post?.title || "a blog post"} on pincohub.`,
   }
 }
 

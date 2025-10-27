@@ -30,7 +30,7 @@ export default function PortfolioPage() {
       results: ["300% increase in online sales", "50% reduction in cart abandonment", "Mobile-first design"],
       duration: "8 weeks",
       year: "2024",
-      testimonial: "PINCOREHUB transformed our business with their exceptional e-commerce platform.",
+      testimonial: "pincohub transformed our business with their exceptional e-commerce platform.",
       rating: 5,
     },
     {

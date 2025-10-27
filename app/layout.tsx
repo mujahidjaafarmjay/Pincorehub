@@ -13,24 +13,24 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXTAUTH_URL || "http://localhost:3000"), // Use NEXTAUTH_URL for dynamic base URL
   title: {
-    default: "PINCOREHUB - Learn, Grow, Succeed",
-    template: "%s | PINCOREHUB",
+    default: "pincohub - Learn, Grow, Succeed",
+    template: "%s | pincohub",
   },
   description:
-    "PINCOREHUB offers expert training, courses, and consulting services in IT, business, and personal development. Learn, grow, and succeed with us.",
-  keywords: ["PINCOREHUB", "IT training", "business consulting", "personal development", "online courses", "Nigeria"],
+    "pincohub offers expert training, courses, and consulting services in IT, business, and personal development. Learn, grow, and succeed with us.",
+  keywords: ["pincohub", "IT training", "business consulting", "personal development", "online courses", "Nigeria"],
   openGraph: {
-    title: "PINCOREHUB - Learn, Grow, Succeed",
+    title: "pincohub - Learn, Grow, Succeed",
     description:
-      "PINCOREHUB offers expert training, courses, and consulting services in IT, business, and personal development. Learn, grow, and succeed with us.",
+      "pincohub offers expert training, courses, and consulting services in IT, business, and personal development. Learn, grow, and succeed with us.",
     url: process.env.NEXTAUTH_URL || "http://localhost:3000", // Use NEXTAUTH_URL for dynamic URL
-    siteName: "PINCOREHUB",
+    siteName: "pincohub",
     images: [
       {
         url: "/opengraph-image.jpg", // Replace with your actual Open Graph image
         width: 1200,
         height: 630,
-        alt: "PINCOREHUB - Learn, Grow, Succeed",
+        alt: "pincohub - Learn, Grow, Succeed",
       },
     ],
     locale: "en_US",
@@ -38,9 +38,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "PINCOREHUB - Learn, Grow, Succeed",
+    title: "pincohub - Learn, Grow, Succeed",
     description:
-      "PINCOREHUB offers expert training, courses, and consulting services in IT, business, and personal development. Learn, grow, and succeed with us.",
+      "pincohub offers expert training, courses, and consulting services in IT, business, and personal development. Learn, grow, and succeed with us.",
     creator: "@pincorehub", // Replace with your Twitter handle
     images: ["/twitter-image.jpg"], // Replace with your actual Twitter image
   },

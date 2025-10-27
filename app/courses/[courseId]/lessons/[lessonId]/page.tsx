@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: LessonPageProps) {
 
   return {
     title: lesson ? `${lesson.title} - ${lesson.course.title}` : "Lesson",
-    description: `Learn ${lesson?.title || "this lesson"} from ${lesson?.course.title || "a course"} on PINCOREHUB.`,
+    description: `Learn ${lesson?.title || "this lesson"} from ${lesson?.course.title || "a course"} on pincohub.`,
   }
 }
 

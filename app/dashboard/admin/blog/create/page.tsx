@@ -6,7 +6,7 @@ import { redirect } from "next/navigation"
 
 export const metadata = {
   title: "Create New Blog Post",
-  description: "Admin panel for creating new blog posts on PINCOREHUB.",
+  description: "Admin panel for creating new blog posts on pincohub.",
 }
 
 export default async function CreateBlogPostPage() {

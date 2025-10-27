@@ -23,7 +23,7 @@ interface SendEmailOptions {
 export async function sendEmail({ to, subject, html, text }: SendEmailOptions) {
   try {
     await transporter.sendMail({
-      from: `"PINCOREHUB" <${process.env.SMTP_USER}>`, // sender address
+      from: `"pincohub" <${process.env.SMTP_USER}>`, // sender address
       to,
       subject,
       html,
